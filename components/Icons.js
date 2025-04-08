@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export const TuxIcon = (props) => (
     <Ionicons name="logo-tux" size={24} color="white" />
@@ -28,4 +29,12 @@ export const CartIcon = (props) => (
 
 export const AddIcon = (props) => (
     <MaterialIcons name="add-circle-outline" size={24} color="white" {...props} />
+);
+
+export const EditIcon = (props) => (
+    <FontAwesome6 name="edit" size={24} color="white" {...props} />
+);
+
+export const DangerIcon = (props) => (
+    <MaterialIcons name="dangerous" size={24} color="white" {...props} />
 );
