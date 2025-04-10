@@ -1,11 +1,20 @@
-import { router, Stack, useLocalSearchParams } from "expo-router";
+import { Link, router, Stack, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { View, Text, Image, ScrollView, ActivityIndicator, Pressable, Modal, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  Pressable,
+  Modal,
+  Alert,
+} from "react-native";
 import { getProductDetails } from "../lib/api-products";
 import { Screen } from "../components/Screen";
 import { useAuth } from "../components/context/AuthContext";
 import { DangerIcon, EditIcon } from "../components/Icons";
-import { deleteProduct } from '../lib/api-products';
+import { deleteProduct } from "../lib/api-products";
 
 export default function ProductDetail() {
   const { detalleproducto } = useLocalSearchParams();
@@ -27,17 +36,21 @@ export default function ProductDetail() {
   const handleDeleteProduct = async () => {
     try {
       const result = await deleteProduct(detalleproducto, user.token);
-  
+
       Alert.alert("Producto eliminado correctamente");
       setIsModalVisible(false);
-      router.replace({ pathname: "/my-products", params: { refresh: Date.now() } });
-  
+      router.replace({
+        pathname: "/my-products",
+        params: { refresh: Date.now() },
+      });
     } catch (error) {
       console.error("Error al eliminar el producto:", error.message);
-      Alert.alert("Error", error.message || "Ocurrió un error al eliminar el producto");
+      Alert.alert(
+        "Error",
+        error.message || "Ocurrió un error al eliminar el producto"
+      );
     }
   };
-  
 
   if (loading) {
     return (
@@ -89,19 +102,24 @@ export default function ProductDetail() {
 
         {canManageProduct && (
           <View className="flex-row justify-center mt-6 mb-4">
-            <Pressable className="flex-row items-center bg-blue-600 px-4 py-2 rounded-lg mr-2">
-            <EditIcon />
-              <Text className="text-white font-bold">Editar</Text>
-            </Pressable>
-            <Pressable className="flex-row items-center bg-red-600 px-4 py-2 rounded-lg" onPress={()=> setIsModalVisible(true)}>
-            <DangerIcon />
+            <Link href={`/edit-product/${detalleproducto}`} asChild>
+              <Pressable className="flex-row items-center bg-blue-600 px-4 py-2 rounded-lg mr-2">
+                <EditIcon />
+                <Text className="text-white font-bold">Editar</Text>
+              </Pressable>
+            </Link>
+            <Pressable
+              className="flex-row items-center bg-red-600 px-4 py-2 rounded-lg"
+              onPress={() => setIsModalVisible(true)}
+            >
+              <DangerIcon />
               <Text className="text-white font-bold">Eliminar</Text>
             </Pressable>
           </View>
         )}
       </ScrollView>
 
-        {/* MODAL DE CONFIRMACIÓN */}
+      {/* MODAL DE CONFIRMACIÓN */}
       <Modal
         transparent={true}
         animationType="slide"
@@ -113,7 +131,9 @@ export default function ProductDetail() {
             <Text className="text-white text-lg font-bold mb-4">
               ¿Estás seguro de que deseas eliminar este producto?
             </Text>
-            <Text className="text-yellow-400 mb-6">Sera imposible recuperarlo.</Text>
+            <Text className="text-yellow-400 mb-6">
+              Sera imposible recuperarlo.
+            </Text>
 
             <Pressable
               onPress={handleDeleteProduct}
@@ -131,7 +151,6 @@ export default function ProductDetail() {
           </View>
         </View>
       </Modal>
-
     </Screen>
   );
 }

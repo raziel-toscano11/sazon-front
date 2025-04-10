@@ -4,7 +4,7 @@ import { Link } from "expo-router";
 const ProductCard = ({ id, nombre, descripcion, precio, image }) => {
     return (
       <Link href={`/${id}`} asChild>
-        <Pressable className="active:opacity-70 border border-black active:border-white/50 mb-2 bg-gray-500/20 rounded-xl p-4">
+        <Pressable className="active:opacity-70 border border-yellow-500 active:border-white/50 mb-2 bg-gray-500/20 rounded-xl p-4">
           <View
             className="bg-gray-900 rounded-lg p-2 m-2"
             style={{ width: 305, height: 260 }}
