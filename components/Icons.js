@@ -40,3 +40,15 @@ export const EditIcon = (props) => (
 export const DangerIcon = (props) => (
     <MaterialCommunityIcons name="delete-off" size={24} color="white" {...props} />
 );
+
+export const TrashIcon = (props) => (
+    <FontAwesome name="trash" size={22} color="#EF4444" {...props} />
+);
+
+export const CartPlusIcon = (props) => (
+    <FontAwesome6 name="cart-plus" size={24} color="white" {...props} />
+);
+
+export const SucursalICon = (props) => (
+    <Ionicons name="storefront-sharp" size={24} color="white" {...props} />
+);

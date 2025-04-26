@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { CartIcon, HomeIcon, ProfileIcon } from "../../components/Icons";
+import { CartIcon, HomeIcon, ProfileIcon, SucursalICon } from "../../components/Icons";
 
 export default function TabsLayout() {
   return (
@@ -29,6 +29,14 @@ export default function TabsLayout() {
         options={{
           title: "My Products",
           tabBarIcon: ({ color }) => <CartIcon color={color} />,
+        }}
+      />
+
+      <Tabs.Screen
+        name="sucursales"
+        options={{
+          title: "sucursales",
+          tabBarIcon: ({ color }) => <SucursalICon color={color} />
         }}
       />
 

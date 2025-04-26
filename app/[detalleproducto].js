@@ -13,8 +13,9 @@ import {
 import { getProductDetails } from "../lib/api-products";
 import { Screen } from "../components/Screen";
 import { useAuth } from "../components/context/AuthContext";
-import { DangerIcon, EditIcon } from "../components/Icons";
+import { CartPlusIcon, DangerIcon, EditIcon } from "../components/Icons";
 import { deleteProduct } from "../lib/api-products";
+import { API_IP } from "../env";
 
 export default function ProductDetail() {
   const { detalleproducto } = useLocalSearchParams();
@@ -23,6 +24,7 @@ export default function ProductDetail() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { user } = useAuth();
   const canManageProduct = user?.role === "administrador";
+  const isClient = user?.role === "cliente"; // Verifica si el usuario es cliente
 
   useEffect(() => {
     if (detalleproducto) {
@@ -48,6 +50,52 @@ export default function ProductDetail() {
       Alert.alert(
         "Error",
         error.message || "Ocurrió un error al eliminar el producto"
+      );
+    }
+  };
+
+  const handleAddToCart = async () => {
+    // Verifica si el usuario está autenticado
+    if (!user) {
+      Alert.alert("Inicia sesión", "Debes iniciar sesión para agregar productos al carrito");
+      router.replace("/login"); // Redirige al login si no está autenticado
+      return;
+    }
+
+    // Verifica si el usuario es cliente (redundante, pero buena práctica)
+    if (user.role !== "cliente") {
+      Alert.alert("Acceso denegado", "Solo los clientes pueden agregar productos al carrito");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_IP}/api/cart/user/${user.id}/product/${detalleproducto}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify({
+            peso: "1", // Peso por defecto: 1 kg
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        Alert.alert("Éxito", "Producto agregado al carrito");
+        router.dismissTo({ pathname: "/my-products", params: { refresh: true } });
+      } else {
+        throw new Error(result.message || "Error al agregar al carrito");
+      }
+    } catch (error) {
+      console.error("Error al agregar al carrito:", error.message);
+      Alert.alert(
+        "Error",
+        error.message || "Ocurrió un error al agregar el producto al carrito"
       );
     }
   };
@@ -100,6 +148,26 @@ export default function ProductDetail() {
         <Text className="text-yellow-400 text-xl font-semibold mb-4">{`$${product.precio}`}</Text>
         <Text className="text-white text-base">{product.descripcion}</Text>
 
+        {/* Botón de "Agregar al carrito" solo para clientes autenticados */}
+        {isClient && (
+          <View className="flex-row justify-center mt-4">
+          <Pressable onPress={handleAddToCart}>
+            {({ pressed }) => (
+              <View
+                className={`flex-row items-center px-6 py-3 rounded-lg ${
+                  pressed ? "bg-blue-700" : "bg-blue-600"
+                }`}
+              >
+                <CartPlusIcon />
+                <Text className="text-white font-bold text-lg ml-2">
+                  Agregar al carrito
+                </Text>
+              </View>
+            )}
+          </Pressable>
+        </View>
+        )}
+
         {canManageProduct && (
           <View className="flex-row justify-center mt-6 mb-4">
             <Link href={`/edit-product/${detalleproducto}`} asChild>
@@ -132,7 +200,7 @@ export default function ProductDetail() {
               ¿Estás seguro de que deseas eliminar este producto?
             </Text>
             <Text className="text-yellow-400 mb-6">
-              Sera imposible recuperarlo.
+              Será imposible recuperarlo.
             </Text>
 
             <Pressable

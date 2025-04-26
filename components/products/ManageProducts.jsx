@@ -11,7 +11,7 @@ import { Link, useLocalSearchParams } from "expo-router";
 import { getAllProducts } from "../../lib/api-products"; // asegúrate que la función está bien
 import ProductCard from "../../components/products/ProductCard";
 import { AddIcon } from "../../components/Icons";
-import { Screen } from "../../components/Screen";
+import { Screen } from "../Screen";
 
 const ManageProducts = () => {
   const [products, setProducts] = useState([]);
