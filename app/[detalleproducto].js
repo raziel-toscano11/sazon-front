@@ -24,7 +24,6 @@ export default function ProductDetail() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { user } = useAuth();
   const canManageProduct = user?.role === "administrador";
-  const isClient = user?.role === "cliente"; // Verifica si el usuario es cliente
 
   useEffect(() => {
     if (detalleproducto) {
@@ -58,7 +57,7 @@ export default function ProductDetail() {
     // Verifica si el usuario está autenticado
     if (!user) {
       Alert.alert("Inicia sesión", "Debes iniciar sesión para agregar productos al carrito");
-      router.replace("/login"); // Redirige al login si no está autenticado
+      router.dismissTo("/profile"); // Redirige al login si no está autenticado
       return;
     }
 
@@ -149,23 +148,23 @@ export default function ProductDetail() {
         <Text className="text-white text-base">{product.descripcion}</Text>
 
         {/* Botón de "Agregar al carrito" solo para clientes autenticados */}
-        {isClient && (
+        {(!user || user.role === "cliente") && (
           <View className="flex-row justify-center mt-4">
-          <Pressable onPress={handleAddToCart}>
-            {({ pressed }) => (
-              <View
-                className={`flex-row items-center px-6 py-3 rounded-lg ${
-                  pressed ? "bg-blue-700" : "bg-blue-600"
-                }`}
-              >
-                <CartPlusIcon />
-                <Text className="text-white font-bold text-lg ml-2">
-                  Agregar al carrito
-                </Text>
-              </View>
-            )}
-          </Pressable>
-        </View>
+            <Pressable onPress={handleAddToCart}>
+              {({ pressed }) => (
+                <View
+                  className={`flex-row items-center px-6 py-3 rounded-lg ${
+                    pressed ? "bg-blue-700" : "bg-blue-600"
+                  }`}
+                >
+                  <CartPlusIcon />
+                  <Text className="text-white font-bold text-lg ml-2">
+                    Agregar al carrito
+                  </Text>
+                </View>
+              )}
+            </Pressable>
+          </View>
         )}
 
         {canManageProduct && (
