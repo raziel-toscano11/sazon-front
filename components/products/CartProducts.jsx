@@ -1,5 +1,4 @@
 import { FlatList, Pressable, Text, View } from "react-native";
-import { Screen } from "../Screen";
 import CartItem from "./CartItem";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
@@ -64,8 +63,7 @@ const CartProducts = () => {
       .toFixed(2);
   
     return (
-      <Screen>
-        <View className="flex-1 bg-gray-900 px-4 pt-2">
+        <View className="flex-1 bg-gray-black px-4 pt-2">
           <Text className="text-white text-2xl font-bold mb-4 text-center">
             Carrito de compras
           </Text>
@@ -118,7 +116,6 @@ const CartProducts = () => {
             </Text>
           </Pressable>
         </View>
-      </Screen>
     );
   };
   

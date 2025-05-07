@@ -33,7 +33,7 @@ export default function Profile() {
   return (
     <Screen>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View className="flex-1 bg-gray-900">
+        <View className="flex-1 bg-black">
           {/*Header */}
           <View className="items-center p-6 bg-gradient-to-r from-purple-500 to-blue-500">
             <View className="relative">

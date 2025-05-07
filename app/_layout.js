@@ -12,15 +12,15 @@ export default function Layout() {
             screenOptions={{
             headerStyle: { backgroundColor: "black" },
             headerTintColor: "yellow",
-            headerTitle: "sazonITO",
+            headerTitle: "La Tienda del Sazon",
 /*             headerLeft: () => <TuxIcon />,
- */            headerRight: () => (
+ */            /* headerRight: () => (
               <Link asChild href="/about">
                 <Pressable>
                   <CircleInfoIcon />
                 </Pressable>
               </Link>
-            ),
+            ), */
           }}
             />
         </View>
