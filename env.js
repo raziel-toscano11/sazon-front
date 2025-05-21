@@ -1,1 +1,1 @@
-export const API_IP = "http://10.168.3.120:3000";
+export const API_IP = "https://api-railway-production-0755.up.railway.app";

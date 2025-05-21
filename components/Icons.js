@@ -52,3 +52,7 @@ export const CartPlusIcon = (props) => (
 export const SucursalICon = (props) => (
     <Ionicons name="storefront-sharp" size={24} color="white" {...props} />
 );
+
+export const ComprasIcon = (props) => (
+    <MaterialCommunityIcons name="store-check" size={24} color="white" {...props} />
+);
